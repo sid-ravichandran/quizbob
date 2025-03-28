@@ -1,6 +1,4 @@
 streamlit
-pandas
-numpy
 openai
 google-search-results
-streamlit-js-eval
+load_dotenv

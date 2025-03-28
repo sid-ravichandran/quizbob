@@ -1,9 +1,5 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 from openai import OpenAI
-import serpapi
-from streamlit_js_eval import streamlit_js_eval
 from functions import *
 
 
@@ -16,13 +12,12 @@ local_css("style.css")
 st.title(':brain: _:blue[Quizbob!]_')
 
 st.write("Generate Quiz Questions that explore the connections in the world around us :earth_africa:\
-         \n\nYou just provide the inputs and let me generate the question for you. Try to work out the answer and then reveal it! \
+         \n\nJust provide the inputs and let me generate the question for you. Test your knowledge and try to work out the answer before you reveal it! \
          \n\nHappy Quizzing! :tada:")
 
 #############################
 
 openai_client = OpenAI(api_key=get_openai_key())
-serpclient = serpapi.Client(api_key=get_serpapi_key())
 
 #############################
 
@@ -61,7 +56,7 @@ with st.form(key='input_form'):
         st.session_state['entities'] = [entity for entity in entities if entity is not None and entity.strip() != ""]
 
         if len(st.session_state['entities']) > 0:
-            st.session_state['question'], st.session_state['answer'], st.session_state['summary'], st.session_state['image'] = generate_qa_with_image(openai_client, serpclient)
+            st.session_state['question'], st.session_state['answer'], st.session_state['summary'], st.session_state['image'] = generate_qa_with_image(openai_client)
             st.success("Quiz question generated!", icon="✅")
             st.session_state['question_available'] = True
             st.session_state['answer_revealed'] = False

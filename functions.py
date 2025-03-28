@@ -1,12 +1,18 @@
 import os
 import streamlit as st
+from serpapi import GoogleSearch
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 def get_openai_key():
     return os.getenv("OPENAI_API_KEY")
 
+
 def get_serpapi_key():
     return os.getenv("SERPAPI_API_KEY")
+
 
 def generate_qa(client, entities, difficulty):
     """
@@ -52,31 +58,29 @@ def extract_qa(qa):
     return question, answer, summary
 
 
-def serp_search(serpclient, query):
+def serp_search(query):
     """ Search for google images using SerpAPI.
     Args:
-        serpclient: The SerpAPI client.
         query: The search query."""
 
-    results = serpclient.search({
-        'engine': 'google_images',
+    results = GoogleSearch({
+        'serp_api_key': get_serpapi_key(),
         'tbm': 'isch',
         'q': query,
     })
 
-    return results['images_results'][0]['original']
+    return results.get_dict()['images_results'][0]['original']
 
 
-def generate_qa_with_image(client, serpclient):
+def generate_qa_with_image(client):
     """Generate a quiz question and answer based on the provided entities and search for an image using SerpAPI.
     Args:
         client: The OpenAI API client.
-        serpclient: The SerpAPI client.
     """
     
     qa = generate_qa(client, st.session_state['entities'], st.session_state['difficulty'])
     question, answer, summary = extract_qa(qa)
-    image = serp_search(serpclient, summary)
+    image = serp_search(summary)
 
     return question, answer, summary, image
 
