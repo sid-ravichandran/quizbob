@@ -26,13 +26,18 @@ def generate_qa(client, entities, difficulty):
     else:
         entities_str = entities[0] if entities else ""
 
-    question = f"What links the following entities: {entities_str}? The entities can be people, places, events or things."
+    if len(entities) > 0:
+        question = f"What links the following entities: {entities_str}? The entities can be people, places, events, things or even abstract concepts"
+        mid_str = "that links the following entities"
+    else:
+        question = f"This is the given theme: {entities_str[0]}. The theme can be a person, place, event, thing or even an abstract concept"
+        mid_str = "according to the given theme"
 
     response = client.responses.create(
         model="gpt-4o",
         instructions=f"You are a clever quiz question generation assistant. \
             Use your vast bank of knowledge of world personalities, events and trivia to generate a quiz question and its answer \
-            that links the provided personalities and events. Make it fun, interesting and engaging and at the same provide clues that will help in working out the answer. \
+            {mid_str}. Make it fun, interesting and engaging and at the same provide clues that will help in working out the answer. \
             The question should be of difficulty level {difficulty}\
             The answer should be a concrete person, place, event or thing. \
             The question and answer should each be at least 1 full sentence minimum and 2 full sentences maximum. \
