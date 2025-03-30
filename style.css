@@ -114,3 +114,35 @@ body {
 .answer p {
     font-size: 1.25rem;
 }
+
+.title-font {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    /* background: linear-gradient(45deg, #FF4B4B, #FF9900); */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
+.description-text {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.2rem;
+    /* color: #262730; */
+    line-height: 1.8;
+    /* margin: 1.5rem 0; */
+    /* padding: 1.5rem; */
+    border-radius: 10px;
+    /* background: rgba(237, 244, 252, 0.6); */
+}
+
+/* .description-text ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.description-text li {
+    margin-bottom: 0.5rem;
+} */

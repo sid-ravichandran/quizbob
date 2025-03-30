@@ -85,6 +85,29 @@ def generate_qa_with_image(client):
     return question, answer, summary, image
 
 
+def evaluate_answer(client, correct_answer, user_answer):
+    """""Evaluate the user's answer against the correct answer using OpenAI API.
+    Args:
+        client: The OpenAI API client.
+        correct_answer: The correct answer to the quiz question.
+        user_answer: The user's answer to the quiz question."""
+
+    question = f"Evaluate the user's answer ({user_answer}) against the correct answer ({correct_answer})"
+
+    response = client.responses.create(
+        model="gpt-4o",
+        instructions="You are a quiz answer evaluation assistant. \
+            I am interested in a holistic evaluation that looks at exact matches as well as semantic similarity between the user's answer and the correct answer\
+            Return a numerical score of the evaluation on a scale of 10 rounded to the nearest 0.1, as well as a short 1 sentence\
+            commentary on the difference between the user's answer and the correct answer. The commentary should be addressed to the user in second person and in simple English\
+            Format your response like this: 'Score: <score> | Commentary: <commentary>'",
+        input=question,
+        temperature=0.0,
+    )
+
+    return response.output_text
+
+
 #########################################
 
 def local_css(file_name):
