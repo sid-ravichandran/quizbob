@@ -12,47 +12,46 @@ local_css("style.css")
 
 st.image("quizbob_banner.png")
 
+# st.markdown("""
+#     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+# """, unsafe_allow_html=True)
+
 st.markdown("""
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
 # Title and description
 # st.markdown('<p class="title-font">🧠 Quizbob!</p>', unsafe_allow_html=True)
 st.title("🧠 :blue[QuizBob!]")
 
-st.markdown('<div class="description-text">Explore the connections in the world around us through Quizzing 🌍<br><br>\
-            Here\'s how it to play:<ul><li>\
+st.markdown('<div class="description-text"><strong><i>Explore connections in the world around us through Quizzing</strong></i> 🌍<br><br>\
+            Here\'s how to play:<ul><li>\
             Provide <strong>up to 3</strong> entities and I\'ll generate a question for you that connects them</li><li>\
             To test your knowledge - take some time and try to work out the answer before you enter it, or you could just choose to reveal the answer if you prefer!</li><li>\
             Get a score that evaluates how well you got the answer!</li></ul><br>HAPPY QUIZZING! 🎉</div><br>', unsafe_allow_html=True)
 
-# st.markdown('<p style="text-align: center; font-size: 1.2rem;">Happy Quizzing! 🎉</p>', unsafe_allow_html=True)
 
 #############################
 
 openai_client = OpenAI(api_key=get_openai_key())
 
 #############################
-ccol1, col2, col3 = st.columns([1, 6, 1])
+col1, col2, col3 = st.columns([1, 4, 1])
 
 with col2:
     with st.form(key='input_form'):
-        st.write("Enter up to three entities (people, places, events, or things) to generate a quiz question that connects them.\
+        st.write("Enter up to three entities to generate a quiz question that connects them. An entity can be a person, place, thing or even an abstract concept.\
                  \n\nFor most reliable results, please only enter well known personalities/events/places!")
 
-        col1, col2 = st.columns([1,7])
+        st.text_input("dummy", placeholder="1: Enter a person, place, event or thing...", key="entity1", label_visibility='collapsed')
 
-        col1.write("1.")
-        col2.text_input("dummy", placeholder="Enter a person, place, event or thing...", key="entity1", label_visibility='collapsed')
+        st.text_input("dummy", placeholder="2: Enter a person, place, event or thing...", key="entity2", label_visibility='collapsed')
 
-        col1.write("2.")
-        col2.text_input("dummy", placeholder="Enter a person, place, event or thing...", key="entity2", label_visibility='collapsed')
+        st.text_input("dummy", placeholder="3: Enter a person, place, event or thing...", key="entity3", label_visibility='collapsed')
 
-        col1.write("3.")
-        col2.text_input("dummy", placeholder="Enter a person, place, event or thing...", key="entity3", label_visibility='collapsed')
-
-        diff = st.segmented_control("dummy", ["Normal please", "Challenge me!"], default="Normal please",
-                                    selection_mode="single", key="diff_input", label_visibility='collapsed')
+        diff = st.segmented_control("Question difficulty:", ["Normal please", "Challenge me!"], default="Normal please",
+                                    selection_mode="single", key="diff_input")
+                                    # , label_visibility='collapsed')
         if diff == "Normal please":
             st.session_state['difficulty'] = "medium"
         else:
@@ -91,13 +90,18 @@ if st.session_state['question_available']:
         unsafe_allow_html=True,
     )
 
-    answer_entered = st.text_input("dummy", placeholder="Enter your answer here...", key="user_answer", label_visibility='collapsed')
+    answer_entered = st.text_input("Ok here's my answer", placeholder="Enter your answer here...", key="user_answer")
+                                   #, label_visibility='collapsed')
     answer_reveal = st.button("Just Tell me the Answer! :popcorn:", on_click=reveal_answer(), key='answer_button')
 
     if answer_entered:
         eval = evaluate_answer(openai_client, st.session_state['answer'], st.session_state['user_answer'])
 
         if eval is not None:
+            st.markdown(
+                f'<div class="blockquote-wrapper"><div class="blockquote"><h1><span style="color:#ffffff">{st.session_state.answer}</span></h1><h4>&mdash; Answer</em></h4></div></div>',
+                unsafe_allow_html=True,
+            )
             st.write(eval)
             st.image(st.session_state['image'], caption=st.session_state['summary'])
             st.button("Cool! Let's go again :arrows_counterclockwise:", on_click=reset_sessionstate, key='start_over_button')
