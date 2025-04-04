@@ -24,11 +24,14 @@ st.markdown("""
 # st.markdown('<p class="title-font">🧠 Quizbob!</p>', unsafe_allow_html=True)
 st.title("🧠 :blue[QuizBob!]")
 
+st.markdown(":grey[RECOMMENDED: This app works best with your browser set to Dark Mode!]")
+
 st.markdown('<div class="description-text"><strong><i>Explore connections in the world around us through Quizzing</strong></i> 🌍<br><br>\
             Here\'s how to play:<ul><li>\
             Provide <strong>up to 3</strong> entities and I\'ll generate a question for you that connects them</li><li>\
             To test your knowledge - take some time and try to work out the answer before you enter it, or you could just choose to reveal the answer if you prefer!</li><li>\
-            Get a score that evaluates how well you got the answer!</li></ul><br>HAPPY QUIZZING! 🎉</div><br>', unsafe_allow_html=True)
+            Get a score that evaluates how well you got the answer!</li></ul>\
+            <br>HAPPY QUIZZING! 🎉</div><br>', unsafe_allow_html=True)
 
 
 #############################
