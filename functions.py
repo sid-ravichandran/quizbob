@@ -3,8 +3,9 @@ import streamlit as st
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
 
-
-load_dotenv()
+# Only try to load .env if we are running locally
+if os.path.exists(".env"):
+    load_dotenv()
 
 def get_openai_key():
     return os.getenv("OPENAI_API_KEY")
