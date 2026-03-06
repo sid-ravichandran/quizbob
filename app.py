@@ -120,3 +120,12 @@ if st.session_state['question_available']:
         st.image(st.session_state['image'], caption=st.session_state['summary'])
         st.button("Cool! Let's go again :arrows_counterclockwise:", on_click=reset_sessionstate, key='start_over_button_2')
             
+
+# Add at the bottom of the file
+st.markdown("""
+---
+<div style='text-align: center; color: #666;'>
+    <p>Made with ❤️ by Sid Ravichandran</p>
+    <p>https://www.linkedin.com/in/sid-ravichandran/</p>
+</div>
+""", unsafe_allow_html=True)
